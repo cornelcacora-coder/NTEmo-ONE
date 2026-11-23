@@ -9,7 +9,7 @@ const resources = {
         employees: "Employés",
         badges: "Badges",
         conges: "Congés",
-        documents: "Rapports",
+        documents: "Attestations & Documents",
         settings: "Paramètres",
         kiosk: "Borne Kiosk",
         logout: "Déconnexion"

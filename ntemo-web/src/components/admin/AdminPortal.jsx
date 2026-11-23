@@ -145,7 +145,7 @@ export default function AdminPortal({ onOpenKiosk, onLogout, currentAdmin: propA
     { id: "employees", label: t("nav.employees") || "Employés", icon: Users },
     { id: "badges",    label: t("nav.badges") || "Badges", icon: CreditCard },
     { id: "conges",    label: t("nav.conges") || "Congés", icon: Calendar },
-    { id: "documents", label: t("nav.documents") || "Rapports", icon: FileText },
+    { id: "documents", label: t("nav.documents") || "Attestations & Documents", icon: FileText },
     { id: "settings",  label: t("nav.settings") || "Paramètres", icon: Settings },
   ];
 

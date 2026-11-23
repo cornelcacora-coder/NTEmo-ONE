@@ -27,37 +27,25 @@ import {
 } from "lucide-react";
 
 const DEFAULT_TEMPLATES = [
-  { id:"tpl-1", name:"Attestation de Travail", type:"ATTESTATION", description:"Document certifié pour démarches administratives", active:true },
-  { id:"tpl-2", name:"Ordre de Mission", type:"ORDRE_MISSION", description:"Mandat de déplacement officiel", active:true },
-  { id:"tpl-3", name:"Bilan de Présence Mensuel", type:"BILAN_PRESENCE", description:"Heures effectives et retards", active:true },
-  { id:"tpl-4", name:"Lettre de Préavis", type:"LETTRE_PREAVIS", description:"Notification formelle de fin de contrat", active:true },
-  { id:"tpl-5", name:"Certificat de Travail", type:"CERTIFICAT_TRAVAIL", description:"Document de fin de collaboration", active:true },
-  { id:"tpl-6", name:"Contrat de Travail", type:"CONTRAT", description:"Convention d'embauche officielle", active:false }
+  { id: "tpl-1", name: "Attestation de Travail", type: "ATTESTATION", description: "Document officiel certifié pour banques, visas et démarches administratives", active: true },
+  { id: "tpl-2", name: "Attestation d'Emploi & Salaire", type: "ATTESTATION_SALAIRE", description: "Certifie la rémunération perçue et le poste occupé", active: true },
+  { id: "tpl-3", name: "Attestation de Stage", type: "ATTESTATION_STAGE", description: "Validation de fin de période de stage académique ou professionnel", active: true },
+  { id: "tpl-4", name: "Ordre de Mission", type: "ORDRE_MISSION", description: "Mandat de déplacement officiel avec prise en charge professionnelle", active: true },
+  { id: "tpl-5", name: "Certificat de Travail", type: "CERTIFICAT_TRAVAIL", description: "Document légal remis au départ d'un collaborateur", active: true },
+  { id: "tpl-6", name: "Attestation de Reprise de Service", type: "REPRISE_SERVICE", description: "Constatation officielle de réintégration après congé ou arrêt", active: true }
 ];
 
 const DEFAULT_ARCHIVES = [
   {
-    id: "doc-arch-2024-01",
-    year: "2024",
+    id: "doc-arch-2026-01",
+    year: "2026",
     templateType: "ATTESTATION",
     templateName: "Attestation de Travail",
     employeeId: "emp-cornelca-bitodi",
     employeeName: "CORNELCA BITODI",
-    matricule: "NTM-2024-0001",
-    refNumber: "NTM/RH/2024/NTM-2024-0001",
-    date: "14 Novembre 2024",
-    status: "Validé & Archivé"
-  },
-  {
-    id: "doc-arch-2025-01",
-    year: "2025",
-    templateType: "BILAN_PRESENCE",
-    templateName: "Bilan de Présence Annuel",
-    employeeId: "emp-cornelca-bitodi",
-    employeeName: "CORNELCA BITODI",
-    matricule: "NTM-2025-0001",
-    refNumber: "NTM/RH/2025/NTM-2025-0001",
-    date: "18 Décembre 2025",
+    matricule: "NTM-2026-001",
+    refNumber: "NTM/RH/2026/NTM-2026-001",
+    date: "15 Janvier 2026",
     status: "Validé & Archivé"
   }
 ];
@@ -278,10 +266,10 @@ Direction des Ressources Humaines — NTÊMO ONE SARL`;
             <span>Moteur d'Édition & Génération Sécurisée</span>
           </div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-            Maquette & Documents Officiels RH
+            Attestations & Documents Officiels d'Entreprise
           </h2>
           <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Sélectionnez un collaborateur : ses données personnelles, administratives et contractuelles sont automatiquement récupérées et injectées dans la maquette officielle, prête à imprimer ou exporter.
+            Générez, certifiez et imprimez les attestations de travail, attestations de salaire, ordres de mission et certificats pour vos collaborateurs avec sceau officiel et QR code d'authenticité.
           </p>
         </div>
 
@@ -618,31 +606,42 @@ Direction des Ressources Humaines — NTÊMO ONE SARL`;
                     {/* PARAGRAPHES JURIDIQUES SELON LE TYPE DE MODÈLE */}
                     {templateType === "ATTESTATION" && (
                       <p>
-                        Est régulièrement employé(e) au sein de nos services et exerce actuellement ses fonctions avec professionnalisme, probité et rigueur au sein de notre siège à Brazzaville. La présente attestation lui est délivrée en bonne et due forme sur sa demande pour servir et valoir ce que de droit auprès des administrations ou institutions intéressées.
+                        Est régulièrement employé(e) au sein de notre société <strong>{companySettings.companyName || "NTÊMO ONE SARL"}</strong> et exerce actuellement ses fonctions avec professionnalisme, probité et rigueur au sein de notre siège à Brazzaville. La présente attestation de travail lui est délivrée en bonne et due forme sur sa demande pour servir et valoir ce que de droit auprès des administrations ou institutions intéressées.
+                      </p>
+                    )}
+
+                    {templateType === "ATTESTATION_SALAIRE" && (
+                      <div className="space-y-3">
+                        <p>
+                          Est régulièrement employé(e) au sein de notre entreprise sous contrat {selectedEmp.contract_type || "CDI"} et perçoit à ce titre une rémunération brute mensuelle de <strong>{formatMoney(selectedEmp.total_salary || selectedEmp.base_salary || 900000, selectedEmp.currency || "FCFA")}</strong>, payée par {selectedEmp.payment_method || "Virement Bancaire"}.
+                        </p>
+                        <p>
+                          Cette attestation d'emploi et de rémunération lui est accordée pour faire valoir auprès des organismes financiers, bancaires ou consulaires.
+                        </p>
+                      </div>
+                    )}
+
+                    {templateType === "ATTESTATION_STAGE" && (
+                      <p>
+                        A accompli avec succès une période de stage pratique au sein du département <strong>{selectedEmp.department || "Ressources Humaines"}</strong> de notre société. Durant cette période d'immersion, l'intéressé(e) a fait preuve d'assiduité, d'esprit d'initiative et d'une remarquable capacité d'adaptation.
                       </p>
                     )}
 
                     {templateType === "ORDRE_MISSION" && (
                       <p>
-                        Est formellement mandaté(e) pour accomplir une mission officielle au nom et pour le compte de <strong>{companySettings.companyName || "NTÊMO ONE SARL"}</strong>. Les autorités civiles, militaires et aéroportuaires de la République du Congo sont priées de lui prêter assistance et facilités dans l'accomplissement de sa mission.
+                        Est formellement mandaté(e) pour accomplir une mission officielle au nom et pour le compte de <strong>{companySettings.companyName || "NTÊMO ONE SARL"}</strong>. Les autorités civiles, militaires, aéroportuaires et policières de la République du Congo sont priées de lui prêter assistance et facilités dans l'accomplissement de sa mission.
                       </p>
                     )}
 
                     {templateType === "CERTIFICAT_TRAVAIL" && (
                       <p>
-                        A été employé(e) au sein de notre établissement du {selectedEmp.hire_date || "N/A"} à ce jour. Il/Elle quitte notre entreprise libre de tout engagement envers nous, tous salaires et indemnités légaux lui ayant été intégralement réglés.
+                        A été employé(e) au sein de notre établissement du {selectedEmp.hire_date || "01/01/2026"} à ce jour. Il/Elle quitte notre entreprise libre de tout engagement envers nous, tous salaires, indemnités compensatrices de congés et droits légaux lui ayant été intégralement réglés.
                       </p>
                     )}
 
-                    {templateType === "LETTRE_PREAVIS" && (
+                    {templateType === "REPRISE_SERVICE" && (
                       <p>
-                        Conformément aux stipulations contractuelles et aux dispositions du Code du Travail congolais, nous vous notifions formellement par le présent document le préavis relatif à l'échéance de votre contrat. Durant cette période, vos droits et obligations demeurent pleinement applicables.
-                      </p>
-                    )}
-
-                    {templateType === "CONTRAT" && (
-                      <p>
-                        Le présent engagement lie les deux parties pour l'exercice des fonctions susmentionnées, sous réserve du respect du règlement intérieur de <strong>{companySettings.companyName || "NTÊMO ONE SARL"}</strong> et des dispositions légales régissant le travail en République du Congo.
+                        Il est officiellement certifié que le/la collaborateur(trice) susnommé(e) a effectivement repris ses fonctions au sein de la société à compter de ce jour, consécutivement à l'expiration de son congé légal / arrêt autorisé.
                       </p>
                     )}
 
