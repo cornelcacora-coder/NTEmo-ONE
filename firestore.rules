@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper pour savoir si l'utilisateur est authentifié
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Récupérer le profil utilisateur
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Vérification des rôles
+    function hasRole(role) {
+      return isAuthenticated() && getUserData().role == role;
+    }
+
+    function isHRorAdmin() {
+      return isAuthenticated() && (
+        getUserData().role in ['SUPER_ADMIN', 'DIRECTION', 'RH']
+      );
+    }
+
+    // 1. Module Employés
+    match /employees/{employeeId} {
+      allow read, write: if true;
+    }
+
+    // 2. Module Badges
+    match /badges/{badgeId} {
+      allow read, write: if true;
+    }
+
+    // 3. Module Présences (Attendances)
+    match /attendances/{attendanceId} {
+      allow read, write: if true;
+    }
+
+    // 4. Module Congés
+    match /leaves/{leaveId} {
+      allow read, write: if true;
+    }
+
+    // 5. Module Documents administratifs
+    match /documents/{documentId} {
+      allow read, write: if true;
+    }
+
+    // 6. Projets & Tâches
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow write: if isHRorAdmin();
+    }
+
+    // 7. Paramètres et Bornes Kiosk
+    match /kiosk_devices/{deviceId} {
+      allow read: if true;
+      allow write: if isHRorAdmin();
+    }
+
+    // 8. Paramètres de l'entreprise
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // 9. Utilisateurs Administrateurs & RH
+    match /admin_users/{userId} {
+      allow read, write: if true;
+    }
+  }
+}
+

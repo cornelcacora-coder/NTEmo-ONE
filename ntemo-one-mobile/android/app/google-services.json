@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "371281892741",
+    "project_id": "ntemo-one",
+    "storage_bucket": "ntemo-one.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371281892741:android:6beebdd7c7d5cf3ddb60ec",
+        "android_client_info": {
+          "package_name": "com.ntemoconsulting.netmoONe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI3gP_fd_FzXePgbEVyRSowfPugq3P8Nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+

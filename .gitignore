@@ -1,0 +1,17 @@
+# Dépendances
+ntemo-web/node_modules/
+ntemo-one-mobile/.dart_tool/
+ntemo-one-mobile/build/
+ntemo-one-mobile/.flutter-plugins
+ntemo-one-mobile/.flutter-plugins-dependencies
+
+# Build web
+ntemo-web/dist/
+
+# Variables d'environnement sensibles
+# ntemo-web/.env  ← inclus volontairement (Firebase config)
+
+# Systeme
+.DS_Store
+Thumbs.db
+*.log
