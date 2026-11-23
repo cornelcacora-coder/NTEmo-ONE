@@ -78,8 +78,14 @@ export default function AdminLogin({ onLoginSuccess, onBackToKiosk }) {
       // Recherche de l'utilisateur par email
       let user = (adminUsers || []).find((u) => u.email?.toLowerCase() === trimmedEmail);
 
-      // Si c'est l'administrateur par défaut
-      if (!user && (trimmedEmail === "cornelca.bitodi@ntemo.com" || trimmedEmail === "admin@ntemo.com" || (activeAdminLocal && activeAdminLocal.email?.toLowerCase() === trimmedEmail))) {
+      // Si c'est l'administrateur principal ou alias reconnu
+      const isCornelcaEmail = 
+        trimmedEmail === "cornelca.bitodi@ntemo.com" || 
+        trimmedEmail === "admin@ntemo.com" || 
+        trimmedEmail === "coracornelca@gmail.com" ||
+        (activeAdminLocal && activeAdminLocal.email?.toLowerCase() === trimmedEmail);
+
+      if (!user && isCornelcaEmail) {
         user = activeAdminLocal || (adminUsers && adminUsers[0]) || attendanceService.getDefaultAdminUsers()[0];
       }
 
@@ -97,6 +103,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToKiosk }) {
         activeAdminLocal?.tempPassword,
         "Cornelca2026!",
         "Cornelca2026",
+        "Cor@2002",
         "admin123",
         "ntemo2026"
       ].filter(Boolean);
